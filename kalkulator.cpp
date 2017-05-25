@@ -176,7 +176,7 @@ QVector<QString> Kalkulator::ONP(QVector<QString> tab, int n) {
         wyjscie2 += wyjscie[i] + " ";
     }
 
-    ui->label_9->setText(wyjscie2);
+    ui->label_99->setText(wyjscie2);
 
     return wyjscie;
 }
@@ -300,7 +300,7 @@ void Kalkulator::on_pushButtonOblicz_clicked()
                 }
     }
     else {
-        ui->label_9->setText("");
+        ui->label_99->setText("");
         ui->label_10->setText("Podaj wyrażenie!");
     }
 
