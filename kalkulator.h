@@ -15,8 +15,7 @@ namespace Ui {
 class Kalkulator;
 }
 
-class Kalkulator : public QMainWindow
-{
+class Kalkulator : public QMainWindow {
     Q_OBJECT
 
 public:
