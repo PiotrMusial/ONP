@@ -19,7 +19,7 @@ bool Kalkulator::sprawdzenieNawiasow(QVector<QString> tab, int n) {
     for(int i=0; i<n; i++) {
             if(tab[i] == "(" || tab[i] == ")" || tab[i] == "[" || tab[i] == "]" || tab[i] == "{" || tab[i] == "}") {
                 if((tab[0] == ")") || (tab[0] == "]") || (tab[0] == "}")) {
-                    ui->textEdit->append("Błędne nawiasy!");
+                    ui->label_10->setText("Błędne nawiasy!");
                     return false;
                 }
                 if((tab[i] == "(") || (tab[i] == "[") || (tab[i] == "{")) stos.push(tab[i]);
@@ -27,21 +27,21 @@ bool Kalkulator::sprawdzenieNawiasow(QVector<QString> tab, int n) {
                 if(tab[i] == ")" && (!stos.empty())) {
                     if(stos.top() == "(") stos.pop();
                     else {
-                        ui->textEdit->append("Błędne nawiasy!");
+                        ui->label_10->setText("Błędne nawiasy!");
                         return false;
                     }
                 }
                 if(tab[i] == "]" && (!stos.empty())) {
                     if(stos.top() == "[") stos.pop();
                     else {
-                        ui->textEdit->append("Błędne nawiasy!");
+                        ui->label_10->setText("Błędne nawiasy!");
                         return false;
                     }
                 }
                 if(tab[i] == "}" && (!stos.empty())) {
                     if(stos.top() == "{") stos.pop();
                     else {
-                        ui->textEdit->append("Błędne nawiasy!");
+                        ui->label_10->setText("Błędne nawiasy!");
                         return false;
                     }
                 }
@@ -60,15 +60,15 @@ bool Kalkulator::sprawdzenieNawiasow(QVector<QString> tab, int n) {
 
 bool Kalkulator::sprawdzenieNawiasow2(int n1, int n2, int n3, int n4, int n5, int n6) {
     if(n1 != n2) {
-            ui->textEdit->append("Błędne nawiasy!");
+            ui->label_10->setText("Błędne nawiasy!");
             return false;
         }
         if(n3 != n4) {
-            ui->textEdit->append("Błędne nawiasy!");
+            ui->label_10->setText("Błędne nawiasy!");
             return false;
         }
         if(n5 != n6) {
-            ui->textEdit->append("Błędne nawiasy!");
+            ui->label_10->setText("Błędne nawiasy!");
             return false;
         }
 
@@ -83,25 +83,25 @@ bool Kalkulator::isnum(QString t) {
 bool Kalkulator::sprawdzenieSkladni(QVector<QString> tab, int n) {
     for(int i=0; i<n-1; i++) {
         if(isnum(tab[i]) == true && isnum(tab[i+1]) == true) {
-            ui->textEdit->append("Błędna składnia!");
+            ui->label_10->setText("Błędna składnia!");
             return false;
         }
 
         else if ((tab[i] == "+" || tab[i] == "~" || tab[i] == "*" || tab[i] == "d" || tab[i] == "m" || tab[i] == "^") &&
                  (tab[i+1] == "+" || tab[i+1] == "~" || tab[i+1] == "*" || tab[i+1] == "d" || tab[i+1] == "m" || tab[i+1] == "^")) {
-            ui->textEdit->append("Błędna składnia!");
+            ui->label_10->setText("Błędna składnia!");
             return false;
         }
 
         else if((tab[i] == "+" || tab[i] == "~" || tab[i] == "*" || tab[i] == "d" || tab[i] == "m" || tab[i] == "^") &&
                 (tab[i+1] == ")" || tab[i+1] == "]" || tab[i+1] == "}")) {
-            ui->textEdit->append("Błędna składnia!");
+            ui->label_10->setText("Błędna składnia!");
             return false;
         }
 
         else if((tab[i] == "(" || tab[i] == "[" || tab[i] == "{") && (tab[i+1] == "+" || tab[i+1] == "~" || tab[i+1] == "*" ||
                 tab[i+1] == "d" || tab[i+1] == "m" || tab[i+1] == "^")) {
-            ui->textEdit->append("Błędna składnia!");
+            ui->label_10->setText("Błędna składnia!");
             return false;
         }
     }
@@ -159,7 +159,9 @@ QVector<QString> Kalkulator::ONP(QVector<QString> tab, int n) {
             stos.pop();
         }
 
-        else wyjscie.push_back(s);
+        else {
+            wyjscie.push_back(s);
+        }
     }
 
     while(!stos.empty()) {
@@ -167,10 +169,19 @@ QVector<QString> Kalkulator::ONP(QVector<QString> tab, int n) {
         wyjscie.push_back(tmp);
         stos.pop();
     }
+
+    QString wyjscie2 = "";
+
+    for(int i=0; i<wyjscie.size(); i++) {
+        wyjscie2 += wyjscie[i] + " ";
+    }
+
+    ui->label_9->setText(wyjscie2);
+
     return wyjscie;
 }
 
-int Kalkulator::obliczanieONP(QVector <QString> wyjscie, int n){
+int Kalkulator::obliczanieONP(QVector <QString> wyjscie){
     QStack<QString> stos2;
 
     for(int i=0; i<wyjscie.size(); i++) {
@@ -219,7 +230,7 @@ int Kalkulator::obliczanieONP(QVector <QString> wyjscie, int n){
 
                 }
                 else {
-                    ui->textEdit->append("Błędne działanie!");
+                    ui->label_10->setText("Błędne działanie!");
                     return 0;
                 }
             }
@@ -232,13 +243,13 @@ int Kalkulator::obliczanieONP(QVector <QString> wyjscie, int n){
                     str = QString::fromStdString(ss.str());
                     stos2.push(str);
                 } else {
-                    ui->textEdit->append("Błędne działanie!");
+                    ui->label_10->setText("Błędne działanie!");
                     return 0;
                 }
             }
             else if(wyjscie[i] == "^") {
                 if(a < 0 || (b == 0 && a == 0)){
-                    ui->textEdit->append("Błędne działanie!");
+                    ui->label_10->setText("Błędne działanie!");
                     return 0;
                 }
                 else {
@@ -251,7 +262,7 @@ int Kalkulator::obliczanieONP(QVector <QString> wyjscie, int n){
             }
         }
     }
-    ui->textEdit->append(stos2.top());
+    ui->label_10->setText(stos2.top());
 }
 
 QVector<QString> Kalkulator::liczba(QVector<QString> wyr) {
@@ -272,23 +283,26 @@ void Kalkulator::on_pushButtonOblicz_clicked()
     QString wyrazenie;
     QVector<QString> wyr, wyr2, wyr3;
 
-    wyrazenie = ui->lineWyrazenie->text();
-    std::copy(wyrazenie.begin(), wyrazenie.end(), std::back_inserter(wyr));
+    if(!ui->lineWyrazenie->text().isEmpty()) {
+        wyrazenie = ui->lineWyrazenie->text();
+        std::copy(wyrazenie.begin(), wyrazenie.end(), std::back_inserter(wyr));
 
-    wyr2 = liczba(wyr);
+        wyr2 = liczba(wyr);
 
-    for(int i=0; i<wyr2.length(); i++)
-        ui->textEdit->append(wyr2[i]);
-
-    if(sprawdzenieNawiasow(wyr2, wyr2.length()) == false) return;
-    else if(sprawdzenieNawiasow(wyr2, wyr2.length()) == true)
-        if(sprawdzenieNawiasow2(l_okraglych_o, l_okraglych_z, l_kwadratowych_o, l_kwadratowych_z, l_klamrowych_o, l_klamrowych_z) == false)
-            return;
-        else
-            if(sprawdzenieSkladni(wyr2, wyr2.length()) == true) {
-                QVector<QString> onp = ONP(wyr2, wyr2.length());
-                obliczanieONP(onp, wyr2.length());
-            }
+        if(sprawdzenieNawiasow(wyr2, wyr2.length()) == false) return;
+        else if(sprawdzenieNawiasow(wyr2, wyr2.length()) == true)
+            if(sprawdzenieNawiasow2(l_okraglych_o, l_okraglych_z, l_kwadratowych_o, l_kwadratowych_z, l_klamrowych_o, l_klamrowych_z) == false)
+                return;
+            else
+                if(sprawdzenieSkladni(wyr2, wyr2.length()) == true) {
+                    QVector<QString> onp = ONP(wyr2, wyr2.length());
+                    obliczanieONP(onp);
+                }
+    }
+    else {
+        ui->label_9->setText("");
+        ui->label_10->setText("Podaj wyrażenie!");
+    }
 
     ui->lineWyrazenie->clear();
 
