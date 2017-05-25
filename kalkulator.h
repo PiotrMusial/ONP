@@ -33,7 +33,7 @@ public:
     bool sprawdzenieSkladni(QVector<QString> tab, int n);
     int kolejnosc(QString x);
     QVector<QString> ONP(QVector<QString> tab, int n);
-    int obliczanieONP(QVector <QString> wyjscie, int n);
+    int obliczanieONP(QVector <QString> wyjscie);
     QVector<QString> liczba(QVector<QString> wyr);
 
 private slots:
